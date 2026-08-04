@@ -1,13 +1,15 @@
 /// NewsTerminal Service Worker — PWA offline support
-const CACHE_NAME = 'newsterminal-v4';
+const CACHE_NAME = 'newsterminal-v5';
 const MAX_CACHE_ITEMS = 200;
 
+// Derive scope-relative paths so the SW works under a subpath (GitHub Pages).
+const BASE = new URL('./', self.location).pathname;
 const PRECACHE_URLS = [
-  '/',
-  '/manifest.json',
-  '/sw.js',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  BASE,
+  `${BASE}manifest.json`,
+  `${BASE}sw.js`,
+  `${BASE}icons/icon-192.png`,
+  `${BASE}icons/icon-512.png`,
 ];
 
 // Install: precache essential assets
