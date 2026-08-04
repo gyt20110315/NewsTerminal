@@ -1,5 +1,5 @@
 /// NewsTerminal Service Worker — PWA offline support
-const CACHE_NAME = 'newsterminal-v5';
+const CACHE_NAME = 'newsterminal-v6';
 const MAX_CACHE_ITEMS = 200;
 
 // Derive scope-relative paths so the SW works under a subpath (GitHub Pages).
@@ -47,12 +47,20 @@ async function trimCache(cacheName, maxItems) {
 
 // Network-first with cache fallback
 self.addEventListener('fetch', (event) => {
+  const url = event.request.url;
   if (
     event.request.method !== 'GET' ||
-    event.request.url.includes('/api/') ||
-    event.request.url.includes('/ws') ||
-    event.request.url.includes('chrome-extension://')
+    url.includes('/api/') ||
+    url.includes('/ws') ||
+    url.includes('chrome-extension://')
   ) {
+    return;
+  }
+
+  // Never cache config.json — it carries the current tunnel URL and must always
+  // hit the network so the frontend connects to the live backend.
+  if (url.includes('config.json')) {
+    event.respondWith(fetch(event.request).catch(() => new Response('', { status: 503 })));
     return;
   }
 
