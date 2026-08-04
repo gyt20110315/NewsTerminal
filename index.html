@@ -22,8 +22,26 @@
   <body>
     <div id="root"></div>
     <script>
+      // 版本标记 — 强制刷新时可见
+      window.__NT_VERSION__ = 'v6-20260804';
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          // 每次加载检查更新，强制新 SW 接管
+          reg.update();
+          if (reg.active && reg.active.state === 'activated') {
+            reg.addEventListener('updatefound', () => {
+              const newSW = reg.installing;
+              if (newSW) {
+                newSW.addEventListener('statechange', () => {
+                  if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                    // 新版本已安装，刷新以使用新版
+                    window.location.reload();
+                  }
+                });
+              }
+            });
+          }
+        });
       }
     </script>
   </body>
