@@ -1,5 +1,5 @@
 /// NewsTerminal Service Worker — PWA offline support
-const CACHE_NAME = 'newsterminal-v11';
+const CACHE_NAME = 'newsterminal-v12';
 const MAX_CACHE_ITEMS = 200;
 
 // Derive scope-relative paths so the SW works under a subpath (GitHub Pages).
