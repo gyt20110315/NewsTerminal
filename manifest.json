@@ -1,7 +1,7 @@
 {
   "name": "全球新闻终端",
   "short_name": "新闻终端",
-  "description": "提供实时中文新闻、全文翻译和智能分析",
+  "description": "提供实时中文新闻、全球与中国热点排行、全文翻译和智能分析",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
